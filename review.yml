@@ -1,0 +1,95 @@
+aid: transitapp
+name: Transit
+review:
+  question: Does Transit expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-03'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. Transit's public API surface is
+    request/response REST over HTTPS against https://external.transitapp.com/v3,
+    authenticated with an apiKey header. "Real-time" here means the REST
+    responses (nearby routes, stop departures) carry live predictions blended
+    with schedule; there is no server-push transport (WebSocket or SSE) on
+    Transit's own public API to model. Clients obtain fresh real-time data by
+    re-polling the REST endpoints on an interval.
+findings:
+  summary: |
+    Transit (the Transit App) does not publish a documented public WebSocket
+    API. Transit exposes a real, publicly documented REST API
+    (https://api-doc.transitapp.com/) that covers nearby routes, nearby stops,
+    stop departures, route details, multimodal trip planning, and service
+    alerts across 1,100+ cities in 37 countries. Access is key-gated: developers
+    request an access key via Transit's request form (free tier of 5
+    requests/minute and 1,500 requests/month), and higher volumes are arranged
+    with the partnerships team (partners@transit.app). Requests go to
+    https://external.transitapp.com/v3 and are authenticated with an apiKey
+    request header, with an optional Accept-Language header for localization.
+    All documented interaction is request/response REST over HTTPS - real-time
+    departure predictions are delivered inside those REST responses, refreshed
+    by client polling. No realtime, bidirectional, or streaming WebSocket
+    (ws:// or wss://) endpoint is documented anywhere in Transit's API docs or
+    partner materials as of the review date.
+  publicApi: |
+    Transit's API is documented publicly but gated by an access key. The docs
+    at api-doc.transitapp.com and the partner overview at
+    transitapp.com/partners/apis describe the product; you must request a key to
+    call it. Free tier: 5 req/min, 1,500 req/month. Program scale reported by
+    Transit: 160+ API users, ~3.5 billion API calls per year, 130,000+ vehicles
+    tracked in real time.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://external.transitapp.com/v3
+      documented: true
+      note: Public v3 REST API. Authenticated with an apiKey request header.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented anywhere in Transit's API docs or partner materials as of the review date.
+  endpointsConfirmed:
+    - GET https://external.transitapp.com/v3/public/nearby_stops
+  endpointsModeled:
+    - GET https://external.transitapp.com/v3/public/nearby_routes
+    - GET https://external.transitapp.com/v3/public/stop_departures
+    - GET https://external.transitapp.com/v3/public/route_details
+    - GET https://external.transitapp.com/v3/otp/plan
+    - GET https://external.transitapp.com/v3/public/service_alerts
+    - GET https://external.transitapp.com/v3/public/available_networks
+  modelingNote: |
+    The apiKey header, the https://external.transitapp.com/v3 base URL, and the
+    GET /public/nearby_stops endpoint (with lat, lon, and max_distance query
+    parameters) are confirmed from Transit's public documentation and a working
+    open-source integration. The remaining six endpoints and their
+    request/response shapes are modeled honestly from Transit's documented v3 API
+    surface, GTFS / GTFS-realtime conventions, and Transit's published capability
+    descriptions (real-time departures, route details, multimodal trip planning
+    via OpenTripPlanner, GTFS-realtime service alerts, and network coverage
+    discovery). Exact path spellings and field names should be reconciled against
+    the live docs once an access key is issued.
+sources:
+  - url: https://api-doc.transitapp.com/
+    type: APIReference
+    note: Public Transit API reference (SPA). No WebSocket surface documented; REST only.
+  - url: https://transitapp.com/partners/apis
+    type: Documentation
+    note: Partner API overview - free tier (5 req/min, 1,500 req/month), capabilities, partners@transit.app contact.
+  - url: https://resources.transitapp.com/article/461-alerts
+    type: Documentation
+    note: How Transit models and displays service alerts (route/stop/trip selectors, GTFS-realtime).
+  - url: https://resources.transitapp.com/article/397-on-demand-transit-api-guidelines
+    type: Documentation
+    note: On-demand transit API guidelines for partners.
+  - url: https://github.com/thariq-shanavas/MMM-PublicTransit
+    type: SourceCode
+    note: Open-source consumer confirming base https://external.transitapp.com/v3, apiKey header, and GET /public/nearby_stops with lat/lon/max_distance.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists, and Transit's own public API is
+    request/response REST authenticated with an apiKey header. No AsyncAPI
+    document was created because there is no server-push transport (WebSocket or
+    SSE) on Transit's own API to model; real-time data is delivered in REST
+    responses and refreshed by client polling.

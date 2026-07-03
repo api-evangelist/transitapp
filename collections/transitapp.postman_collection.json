@@ -1,0 +1,177 @@
+{
+  "info": {
+    "name": "Transit API",
+    "description": "Real-time public transit data from Transit (the Transit App) - nearby routes and stops, stop departures, route details, multimodal trip planning, and service alerts across 1,100+ cities in 37 countries. Base URL: https://external.transitapp.com/v3. Access is key-gated: request an access key via Transit's API request form (free tier of 5 req/min, 1,500 req/month). Every request is authenticated with an apiKey header. Note: /public/nearby_stops is confirmed from Transit's public docs; the remaining requests are modeled honestly from Transit's documented v3 API surface and GTFS conventions - confirm exact field names against the live docs once a key is issued.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      { "key": "key", "value": "apiKey", "type": "string" },
+      { "key": "value", "value": "{{apiKey}}", "type": "string" },
+      { "key": "in", "value": "header", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://external.transitapp.com/v3", "type": "string" },
+    { "key": "apiKey", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Nearby Routes",
+      "item": [
+        {
+          "name": "Get nearby routes",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept-Language", "value": "en" }],
+            "url": {
+              "raw": "{{baseUrl}}/public/nearby_routes?lat=45.5088&lon=-73.5878&max_distance=500&should_update_realtime=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["public", "nearby_routes"],
+              "query": [
+                { "key": "lat", "value": "45.5088" },
+                { "key": "lon", "value": "-73.5878" },
+                { "key": "max_distance", "value": "500" },
+                { "key": "should_update_realtime", "value": "true" }
+              ]
+            },
+            "description": "Returns public transit routes near a location, each with upcoming real-time departures. Modeled from Transit's documented v3 surface."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Nearby Stops",
+      "item": [
+        {
+          "name": "Get nearby stops",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept-Language", "value": "en" }],
+            "url": {
+              "raw": "{{baseUrl}}/public/nearby_stops?lat=45.5088&lon=-73.5878&max_distance=150",
+              "host": ["{{baseUrl}}"],
+              "path": ["public", "nearby_stops"],
+              "query": [
+                { "key": "lat", "value": "45.5088" },
+                { "key": "lon", "value": "-73.5878" },
+                { "key": "max_distance", "value": "150" }
+              ]
+            },
+            "description": "Returns transit stops near a location, each with a stable global_stop_id. Confirmed endpoint from Transit's public docs."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Stop Departures",
+      "item": [
+        {
+          "name": "Get stop departures",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept-Language", "value": "en" }],
+            "url": {
+              "raw": "{{baseUrl}}/public/stop_departures?global_stop_id=STM:stop:12345&should_update_realtime=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["public", "stop_departures"],
+              "query": [
+                { "key": "global_stop_id", "value": "STM:stop:12345" },
+                { "key": "should_update_realtime", "value": "true" }
+              ]
+            },
+            "description": "Returns upcoming departures for a stop by global_stop_id, blending real-time and scheduled times. Modeled."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Route Details",
+      "item": [
+        {
+          "name": "Get route details",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept-Language", "value": "en" }],
+            "url": {
+              "raw": "{{baseUrl}}/public/route_details?global_route_id=STM:route:747",
+              "host": ["{{baseUrl}}"],
+              "path": ["public", "route_details"],
+              "query": [
+                { "key": "global_route_id", "value": "STM:route:747" }
+              ]
+            },
+            "description": "Returns itineraries, ordered stops, and path geometry for a route by global_route_id. Modeled."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Trip Planning",
+      "item": [
+        {
+          "name": "Plan a trip",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept-Language", "value": "en" }],
+            "url": {
+              "raw": "{{baseUrl}}/otp/plan?fromPlace=45.5088,-73.5878&toPlace=45.4972,-73.5793&mode=TRANSIT,WALK",
+              "host": ["{{baseUrl}}"],
+              "path": ["otp", "plan"],
+              "query": [
+                { "key": "fromPlace", "value": "45.5088,-73.5878" },
+                { "key": "toPlace", "value": "45.4972,-73.5793" },
+                { "key": "mode", "value": "TRANSIT,WALK" }
+              ]
+            },
+            "description": "Multimodal origin-to-destination trip planning returning ranked itineraries. OpenTripPlanner-style surface. Modeled."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Service Alerts",
+      "item": [
+        {
+          "name": "Get service alerts",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept-Language", "value": "en" }],
+            "url": {
+              "raw": "{{baseUrl}}/public/service_alerts?global_route_id=STM:route:747",
+              "host": ["{{baseUrl}}"],
+              "path": ["public", "service_alerts"],
+              "query": [
+                { "key": "global_route_id", "value": "STM:route:747" }
+              ]
+            },
+            "description": "Returns service alerts and disruptions scoped to a route, stop, or network following the GTFS-realtime model. Modeled."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Locations",
+      "item": [
+        {
+          "name": "Get available networks",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept-Language", "value": "en" }],
+            "url": {
+              "raw": "{{baseUrl}}/public/available_networks?lat=45.5088&lon=-73.5878",
+              "host": ["{{baseUrl}}"],
+              "path": ["public", "available_networks"],
+              "query": [
+                { "key": "lat", "value": "45.5088" },
+                { "key": "lon", "value": "-73.5878" }
+              ]
+            },
+            "description": "Discovers the transit networks and coverage available near a location. Modeled."
+          }
+        }
+      ]
+    }
+  ]
+}

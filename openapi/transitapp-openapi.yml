@@ -1,0 +1,680 @@
+openapi: 3.0.3
+info:
+  title: Transit API
+  description: >-
+    The Transit API delivers real-time public transit data - nearby routes and
+    stops, stop departures, route details, multimodal trip planning, and service
+    alerts - across 1,100+ cities in 37 countries, plus shared-mobility
+    availability for bikes, scooters, and carshare. The API is publicly
+    documented at https://api-doc.transitapp.com/ but access is key-gated:
+    developers request an access key (free tier of 5 requests/minute and 1,500
+    requests/month) via Transit's request form, and higher volumes are arranged
+    with the partnerships team.
+
+
+    Requests are made against https://external.transitapp.com/v3 and
+    authenticated with an `apiKey` request header. An `Accept-Language` header
+    selects the response language.
+
+
+    Grounding note: the `apiKey` header, the `https://external.transitapp.com/v3`
+    base URL, and the `GET /public/nearby_stops` endpoint (with `lat`, `lon`,
+    and `max_distance` parameters) are confirmed from Transit's public
+    documentation and working integrations. The remaining endpoints
+    (`nearby_routes`, `stop_departures`, `route_details`, `otp/plan`,
+    `service_alerts`, `available_networks`) and their request/response shapes
+    are modeled honestly from Transit's documented v3 API surface, GTFS /
+    GTFS-realtime conventions, and Transit's public capability descriptions;
+    they are marked with `x-modeled: true`. Confirm exact field names against
+    the live docs once an access key is issued.
+  version: '3.0'
+  contact:
+    name: Transit Partnerships
+    url: https://transitapp.com/partners/apis
+    email: partners@transit.app
+  x-logo:
+    url: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+servers:
+  - url: https://external.transitapp.com/v3
+    description: Transit public API v3
+security:
+  - apiKeyAuth: []
+tags:
+  - name: Nearby Routes
+    description: Public transit routes near a location with real-time departures.
+  - name: Nearby Stops
+    description: Public transit stops near a location.
+  - name: Stop Departures
+    description: Upcoming departures for a specific stop.
+  - name: Route Details
+    description: Itineraries, stops, and geometry for a specific route.
+  - name: Trip Planning
+    description: Multimodal origin-to-destination trip planning.
+  - name: Service Alerts
+    description: Service alerts and disruptions for routes, stops, and networks.
+  - name: Locations
+    description: Available transit networks and coverage near a location.
+paths:
+  /public/nearby_routes:
+    get:
+      operationId: getNearbyRoutes
+      tags:
+        - Nearby Routes
+      summary: Get nearby routes
+      description: >-
+        Returns the public transit routes near a latitude/longitude, each with
+        upcoming real-time departures, direction and headsign, wheelchair
+        accessibility, and network branding.
+      x-modeled: true
+      parameters:
+        - name: lat
+          in: query
+          required: true
+          description: Latitude of the search center (WGS84 decimal degrees).
+          schema:
+            type: number
+            format: double
+            example: 45.5088
+        - name: lon
+          in: query
+          required: true
+          description: Longitude of the search center (WGS84 decimal degrees).
+          schema:
+            type: number
+            format: double
+            example: -73.5878
+        - name: max_distance
+          in: query
+          required: false
+          description: Maximum search radius in meters.
+          schema:
+            type: integer
+            default: 500
+            example: 500
+        - name: should_update_realtime
+          in: query
+          required: false
+          description: When true, include live real-time departure predictions.
+          schema:
+            type: boolean
+            default: true
+        - name: Accept-Language
+          in: header
+          required: false
+          description: Preferred response language (BCP 47), e.g. en, fr, es.
+          schema:
+            type: string
+            example: en
+      responses:
+        '200':
+          description: A list of nearby routes with departures.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  routes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Route'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /public/nearby_stops:
+    get:
+      operationId: getNearbyStops
+      tags:
+        - Nearby Stops
+      summary: Get nearby stops
+      description: >-
+        Returns the transit stops near a latitude/longitude within a maximum
+        distance, each with a stable global_stop_id and the routes that serve
+        it. Confirmed endpoint.
+      x-modeled: false
+      parameters:
+        - name: lat
+          in: query
+          required: true
+          description: Latitude of the search center (WGS84 decimal degrees).
+          schema:
+            type: number
+            format: double
+            example: 45.5088
+        - name: lon
+          in: query
+          required: true
+          description: Longitude of the search center (WGS84 decimal degrees).
+          schema:
+            type: number
+            format: double
+            example: -73.5878
+        - name: max_distance
+          in: query
+          required: false
+          description: Maximum search radius in meters.
+          schema:
+            type: integer
+            default: 150
+            example: 150
+        - name: Accept-Language
+          in: header
+          required: false
+          description: Preferred response language (BCP 47).
+          schema:
+            type: string
+            example: en
+      responses:
+        '200':
+          description: A list of nearby stops.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  stops:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Stop'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /public/stop_departures:
+    get:
+      operationId: getStopDepartures
+      tags:
+        - Stop Departures
+      summary: Get stop departures
+      description: >-
+        Returns the upcoming departures for a specific stop identified by its
+        global_stop_id, grouped by route and direction, blending real-time
+        predictions with scheduled times.
+      x-modeled: true
+      parameters:
+        - name: global_stop_id
+          in: query
+          required: true
+          description: The stable global stop identifier returned by nearby_stops.
+          schema:
+            type: string
+            example: 'BMTC:stop:12345'
+        - name: should_update_realtime
+          in: query
+          required: false
+          description: When true, include live real-time predictions.
+          schema:
+            type: boolean
+            default: true
+        - name: Accept-Language
+          in: header
+          required: false
+          description: Preferred response language (BCP 47).
+          schema:
+            type: string
+            example: en
+      responses:
+        '200':
+          description: Upcoming departures for the stop.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  route_departures:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RouteDepartures'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /public/route_details:
+    get:
+      operationId: getRouteDetails
+      tags:
+        - Route Details
+      summary: Get route details
+      description: >-
+        Returns the detail for a specific route identified by its
+        global_route_id - its itineraries/directions, the ordered list of stops,
+        path geometry, and branding.
+      x-modeled: true
+      parameters:
+        - name: global_route_id
+          in: query
+          required: true
+          description: The stable global route identifier.
+          schema:
+            type: string
+            example: 'STM:route:747'
+        - name: Accept-Language
+          in: header
+          required: false
+          description: Preferred response language (BCP 47).
+          schema:
+            type: string
+            example: en
+      responses:
+        '200':
+          description: Route detail with itineraries, stops, and geometry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RouteDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /otp/plan:
+    get:
+      operationId: planTrip
+      tags:
+        - Trip Planning
+      summary: Plan a multimodal trip
+      description: >-
+        Multimodal trip planning between an origin and a destination, returning
+        ranked itineraries that combine public transit with walking, biking, and
+        shared mobility. Built on an OpenTripPlanner-style plan surface.
+      x-modeled: true
+      parameters:
+        - name: fromPlace
+          in: query
+          required: true
+          description: Origin as "lat,lon".
+          schema:
+            type: string
+            example: '45.5088,-73.5878'
+        - name: toPlace
+          in: query
+          required: true
+          description: Destination as "lat,lon".
+          schema:
+            type: string
+            example: '45.4972,-73.5793'
+        - name: date
+          in: query
+          required: false
+          description: Travel date (YYYY-MM-DD). Defaults to today.
+          schema:
+            type: string
+            format: date
+        - name: time
+          in: query
+          required: false
+          description: Travel time (HH:MM). Defaults to now.
+          schema:
+            type: string
+        - name: arriveBy
+          in: query
+          required: false
+          description: When true, treat date/time as the desired arrival time.
+          schema:
+            type: boolean
+            default: false
+        - name: mode
+          in: query
+          required: false
+          description: Comma-separated modes, e.g. TRANSIT,WALK,BICYCLE.
+          schema:
+            type: string
+            example: 'TRANSIT,WALK'
+        - name: Accept-Language
+          in: header
+          required: false
+          description: Preferred response language (BCP 47).
+          schema:
+            type: string
+            example: en
+      responses:
+        '200':
+          description: Ranked trip itineraries.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  plan:
+                    type: object
+                    properties:
+                      itineraries:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Itinerary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /public/service_alerts:
+    get:
+      operationId: getServiceAlerts
+      tags:
+        - Service Alerts
+      summary: Get service alerts
+      description: >-
+        Returns service alerts and disruptions - delays, detours, elevator
+        outages, and cancellations - scoped to a route, stop, or network,
+        following the GTFS-realtime service-alert model.
+      x-modeled: true
+      parameters:
+        - name: global_route_id
+          in: query
+          required: false
+          description: Filter alerts affecting a specific route.
+          schema:
+            type: string
+        - name: global_stop_id
+          in: query
+          required: false
+          description: Filter alerts affecting a specific stop.
+          schema:
+            type: string
+        - name: network_id
+          in: query
+          required: false
+          description: Filter alerts affecting a specific transit network/agency.
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          required: false
+          description: Preferred response language (BCP 47).
+          schema:
+            type: string
+            example: en
+      responses:
+        '200':
+          description: Matching service alerts.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  alerts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ServiceAlert'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /public/available_networks:
+    get:
+      operationId: getAvailableNetworks
+      tags:
+        - Locations
+      summary: Get available networks near a location
+      description: >-
+        Discovers the transit networks and coverage available near a
+        latitude/longitude - the agencies and systems Transit has data for in
+        that location.
+      x-modeled: true
+      parameters:
+        - name: lat
+          in: query
+          required: true
+          description: Latitude of the search center (WGS84 decimal degrees).
+          schema:
+            type: number
+            format: double
+            example: 45.5088
+        - name: lon
+          in: query
+          required: true
+          description: Longitude of the search center (WGS84 decimal degrees).
+          schema:
+            type: number
+            format: double
+            example: -73.5878
+        - name: Accept-Language
+          in: header
+          required: false
+          description: Preferred response language (BCP 47).
+          schema:
+            type: string
+            example: en
+      responses:
+        '200':
+          description: Available transit networks near the location.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  networks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Network'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: apiKey
+      description: >-
+        Transit access key requested via Transit's API request form. Sent as the
+        `apiKey` request header on every call.
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Rate limit exceeded (free tier is 5 requests/minute, 1,500/month).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Network:
+      type: object
+      properties:
+        network_id:
+          type: string
+          example: 'STM'
+        network_name:
+          type: string
+          example: 'Société de transport de Montréal'
+        location_name:
+          type: string
+          example: 'Montreal'
+    Route:
+      type: object
+      properties:
+        global_route_id:
+          type: string
+          example: 'STM:route:747'
+        route_short_name:
+          type: string
+          example: '747'
+        route_long_name:
+          type: string
+          example: 'YUL Aéroport - Centre-ville'
+        route_color:
+          type: string
+          example: '009EE0'
+        route_text_color:
+          type: string
+          example: 'FFFFFF'
+        mode_name:
+          type: string
+          example: 'bus'
+        itineraries:
+          type: array
+          items:
+            $ref: '#/components/schemas/Itinerary'
+    Stop:
+      type: object
+      properties:
+        global_stop_id:
+          type: string
+          example: 'STM:stop:12345'
+        stop_name:
+          type: string
+          example: 'Berri-UQAM'
+        stop_lat:
+          type: number
+          format: double
+          example: 45.5152
+        stop_lon:
+          type: number
+          format: double
+          example: -73.5615
+        distance:
+          type: integer
+          description: Distance from the search center in meters.
+          example: 87
+        wheelchair_boarding:
+          type: boolean
+          example: true
+        route_type:
+          type: integer
+          description: GTFS route_type served at this stop.
+          example: 1
+    RouteDepartures:
+      type: object
+      properties:
+        global_route_id:
+          type: string
+          example: 'STM:route:747'
+        route_short_name:
+          type: string
+          example: '747'
+        direction_headsign:
+          type: string
+          example: 'Centre-ville'
+        departures:
+          type: array
+          items:
+            $ref: '#/components/schemas/Departure'
+    Departure:
+      type: object
+      properties:
+        departure_time:
+          type: integer
+          description: Unix epoch seconds of the departure.
+          example: 1751558400
+        is_real_time:
+          type: boolean
+          example: true
+        is_cancelled:
+          type: boolean
+          example: false
+        headsign:
+          type: string
+          example: 'Centre-ville'
+    RouteDetail:
+      type: object
+      properties:
+        global_route_id:
+          type: string
+          example: 'STM:route:747'
+        route_short_name:
+          type: string
+          example: '747'
+        route_long_name:
+          type: string
+          example: 'YUL Aéroport - Centre-ville'
+        itineraries:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItineraryDetail'
+    ItineraryDetail:
+      type: object
+      properties:
+        direction_id:
+          type: integer
+          example: 0
+        headsign:
+          type: string
+          example: 'Centre-ville'
+        stops:
+          type: array
+          items:
+            $ref: '#/components/schemas/Stop'
+        shape:
+          type: string
+          description: Encoded polyline of the route path geometry.
+    Itinerary:
+      type: object
+      properties:
+        duration:
+          type: integer
+          description: Total trip duration in seconds.
+          example: 1980
+        start_time:
+          type: integer
+          description: Unix epoch seconds of departure.
+        end_time:
+          type: integer
+          description: Unix epoch seconds of arrival.
+        legs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Leg'
+    Leg:
+      type: object
+      properties:
+        mode:
+          type: string
+          example: 'BUS'
+        from:
+          type: string
+          example: 'YUL Aéroport'
+        to:
+          type: string
+          example: 'Centre-ville'
+        route_short_name:
+          type: string
+          example: '747'
+        duration:
+          type: integer
+          example: 1500
+    ServiceAlert:
+      type: object
+      properties:
+        alert_id:
+          type: string
+          example: 'stm-2026-0701-747'
+        cause:
+          type: string
+          description: GTFS-realtime alert cause.
+          example: 'CONSTRUCTION'
+        effect:
+          type: string
+          description: GTFS-realtime alert effect.
+          example: 'DETOUR'
+        header_text:
+          type: string
+          example: 'Route 747 detour'
+        description_text:
+          type: string
+          example: 'The 747 is detoured due to construction on René-Lévesque.'
+        severity:
+          type: string
+          example: 'WARNING'
+        active_period_start:
+          type: integer
+          description: Unix epoch seconds the alert becomes active.
+        active_period_end:
+          type: integer
+          description: Unix epoch seconds the alert ends.
+        affected_global_route_ids:
+          type: array
+          items:
+            type: string
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 401
+        message:
+          type: string
+          example: 'Invalid API key.'

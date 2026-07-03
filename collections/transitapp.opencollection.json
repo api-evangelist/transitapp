@@ -1,0 +1,141 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Transit API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "apikey": {
+        "key": "apiKey",
+        "value": "{{apiKey}}",
+        "in": "header"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": { "name": "Nearby Routes", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get nearby routes", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://external.transitapp.com/v3/public/nearby_routes?lat=45.5088&lon=-73.5878&max_distance=500&should_update_realtime=true",
+            "params": [
+              { "name": "lat", "value": "45.5088", "type": "query", "description": "Latitude of the search center." },
+              { "name": "lon", "value": "-73.5878", "type": "query", "description": "Longitude of the search center." },
+              { "name": "max_distance", "value": "500", "type": "query", "description": "Maximum search radius in meters." },
+              { "name": "should_update_realtime", "value": "true", "type": "query", "description": "Include live real-time departure predictions." }
+            ]
+          },
+          "docs": "Returns public transit routes near a location, each with upcoming real-time departures. Modeled from Transit's documented v3 surface."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Nearby Stops", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get nearby stops", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://external.transitapp.com/v3/public/nearby_stops?lat=45.5088&lon=-73.5878&max_distance=150",
+            "params": [
+              { "name": "lat", "value": "45.5088", "type": "query", "description": "Latitude of the search center." },
+              { "name": "lon", "value": "-73.5878", "type": "query", "description": "Longitude of the search center." },
+              { "name": "max_distance", "value": "150", "type": "query", "description": "Maximum search radius in meters." }
+            ]
+          },
+          "docs": "Returns transit stops near a location, each with a stable global_stop_id. Confirmed endpoint from Transit's public docs."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Stop Departures", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get stop departures", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://external.transitapp.com/v3/public/stop_departures?global_stop_id=STM:stop:12345&should_update_realtime=true",
+            "params": [
+              { "name": "global_stop_id", "value": "STM:stop:12345", "type": "query", "description": "The stable global stop identifier from nearby_stops." },
+              { "name": "should_update_realtime", "value": "true", "type": "query", "description": "Include live real-time predictions." }
+            ]
+          },
+          "docs": "Returns upcoming departures for a stop by global_stop_id, blending real-time and scheduled times. Modeled."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Route Details", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get route details", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://external.transitapp.com/v3/public/route_details?global_route_id=STM:route:747",
+            "params": [
+              { "name": "global_route_id", "value": "STM:route:747", "type": "query", "description": "The stable global route identifier." }
+            ]
+          },
+          "docs": "Returns itineraries, ordered stops, and path geometry for a route by global_route_id. Modeled."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Trip Planning", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Plan a trip", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://external.transitapp.com/v3/otp/plan?fromPlace=45.5088,-73.5878&toPlace=45.4972,-73.5793&mode=TRANSIT,WALK",
+            "params": [
+              { "name": "fromPlace", "value": "45.5088,-73.5878", "type": "query", "description": "Origin as lat,lon." },
+              { "name": "toPlace", "value": "45.4972,-73.5793", "type": "query", "description": "Destination as lat,lon." },
+              { "name": "mode", "value": "TRANSIT,WALK", "type": "query", "description": "Comma-separated travel modes." }
+            ]
+          },
+          "docs": "Multimodal origin-to-destination trip planning returning ranked itineraries. OpenTripPlanner-style surface. Modeled."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Service Alerts", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get service alerts", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://external.transitapp.com/v3/public/service_alerts?global_route_id=STM:route:747",
+            "params": [
+              { "name": "global_route_id", "value": "STM:route:747", "type": "query", "description": "Filter alerts affecting a specific route." }
+            ]
+          },
+          "docs": "Returns service alerts and disruptions scoped to a route, stop, or network following the GTFS-realtime model. Modeled."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Locations", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get available networks", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://external.transitapp.com/v3/public/available_networks?lat=45.5088&lon=-73.5878",
+            "params": [
+              { "name": "lat", "value": "45.5088", "type": "query", "description": "Latitude of the search center." },
+              { "name": "lon", "value": "-73.5878", "type": "query", "description": "Longitude of the search center." }
+            ]
+          },
+          "docs": "Discovers the transit networks and coverage available near a location. Modeled."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

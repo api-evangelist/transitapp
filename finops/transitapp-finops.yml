@@ -1,0 +1,84 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Transit
+providerId: transitapp
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Transit
+- Public Transportation
+- Real-Time
+- Mobility
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Transit API spend. The Transit API has a free access-key tier
+  (5 requests/minute, 1,500 requests/month) with no invoice, and a
+  negotiated partner tier for higher volumes and commercial use cases. Because
+  the metered unit is API requests against a monthly cap, the dominant cost
+  lever is request efficiency - caching static data (route details, network
+  coverage) and pacing real-time polling so a workload stays inside the free
+  budget or a negotiated partner allowance rather than paying for headroom it
+  does not use.
+notes: >-
+  Partner-tier rates are not published; verify commercial terms with
+  partners@transit.app during reconciliation. On the free tier there is no
+  vendor invoice - the cost is entirely the engineering effort to stay within
+  the request cap.
+sources:
+- https://transitapp.com/partners/apis
+- https://api-doc.transitapp.com/
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Transit
+serviceCategory: Mobility and Transit Data
+billingModel:
+  pricingCategory: Subscription-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Usage
+  - Purchase
+focusColumns:
+  ServiceName: Transit API
+  ServiceCategory: Mobility and Transit Data
+  ProviderName: Transit
+  PublisherName: Transit
+  InvoiceIssuerName: Transit
+  BillingCurrency: USD
+  ChargeCategory: Usage
+  PricingCategory: Subscription-Based
+meters:
+- name: api_requests
+  description: API requests made against the Transit v3 API, capped per minute and per month on the free tier.
+  unit: requests
+  aggregation: sum
+  dimensions:
+  - apiKey
+  - endpoint
+- name: monthly_request_budget
+  description: Monthly request allowance consumed against the free (1,500/month) or a negotiated partner budget.
+  unit: requests
+  aggregation: sum
+  dimensions:
+  - apiKey
+principles:
+- name: Visibility
+  description: Track request counts per API key and per endpoint against the monthly cap so a workload never silently blows the free budget.
+- name: Allocation
+  description: Use separate access keys per product/workload so request consumption maps to internal cost centers and use cases.
+- name: Optimization
+  description: Cache static responses (route details, available networks) and pace real-time departure polling on an interval to minimize billable/quota-consuming requests.
+- name: Accountability
+  description: Assign an owner per access key; review monthly request consumption against the free cap or the negotiated partner allowance.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

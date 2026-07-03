@@ -1,0 +1,58 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Transit
+providerId: transitapp
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Transit
+- Public Transportation
+- Real-Time
+- Rate Limiting
+- Quotas
+description: >-
+  Transit publishes explicit rate limits for its free API tier: up to 5 requests
+  per minute and 1,500 requests per month per access key. These are hard caps on
+  the free tier; exceeding them requires arranging higher limits with Transit's
+  partnerships team, whose ceilings are negotiated rather than published.
+  Because real-time transit data changes frequently, Transit recommends pacing
+  polling (for example, refreshing a departure board every 10-30 minutes) to
+  stay within the free monthly budget.
+notes: >-
+  Free-tier numbers (5 req/min, 1,500 req/month) are from
+  transitapp.com/partners/apis. Higher/partner limits are not published; contact
+  partners@transit.app. The 429 response code for throttling is the HTTP
+  convention and should be confirmed against the live docs during reconciliation.
+sources:
+- https://transitapp.com/partners/apis
+- https://api-doc.transitapp.com/
+responseCodes:
+  throttled: 429
+limits:
+- name: Free Tier Requests Per Minute
+  scope: apiKey
+  metric: requests
+  limit: 5 per minute
+  notes: Hard cap on the free access-key tier.
+- name: Free Tier Requests Per Month
+  scope: apiKey
+  metric: requests
+  limit: 1500 per month
+  notes: Hard monthly cap on the free access-key tier.
+- name: Partner / Higher Volume
+  scope: account
+  metric: requests
+  limit: negotiated
+  notes: Higher rate and monthly limits arranged with partners@transit.app; not published.
+policies:
+- name: Pacing Recommendation
+  description: Transit recommends refreshing real-time data on an interval (e.g. every 10-30 minutes for departure boards) to stay within the free monthly budget.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on 429 responses.
+- name: Caching
+  description: Cache relatively static responses (route details, available networks) and only re-poll real-time departures as needed to conserve quota.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,97 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Transit
+providerId: transitapp
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Transit
+- Public Transportation
+- Real-Time
+- Mobility
+- Plans
+description: >-
+  The Transit API is publicly documented but access is key-gated. Developers
+  request an access key through Transit's API request form, which grants a free
+  tier of up to 5 requests per minute and 1,500 requests per month at no cost.
+  For higher call volumes or specific use cases, developers arrange a paid or
+  partner agreement with Transit's partnerships team; Transit does not publish
+  fixed per-request rates for those higher tiers - they are negotiated
+  (Transit reports 160+ API users and 3.5 billion API calls annually across the
+  program). Exact paid rates are not reconciled here.
+notes: >-
+  Free-tier limits (5 req/min, 1,500 req/month) are published on
+  transitapp.com/partners/apis. Higher volumes are arranged via
+  partners@transit.app. Verify current tiers and any commercial rates during
+  reconciliation.
+sources:
+- https://transitapp.com/partners/apis
+- https://api-doc.transitapp.com/
+- https://resources.transitapp.com/article/397-on-demand-transit-api-guidelines
+plans:
+- id: transitapp-free
+  name: Free (Access Key)
+  type: free
+  description: >-
+    Free access granted after requesting an access key via Transit's API
+    request form. Covers the full public v3 read API - nearby routes and stops,
+    stop departures, route details, trip planning, and service alerts - within a
+    capped request budget.
+  entries:
+  - label: Requests Per Minute
+    name: free_requests_per_minute
+    type: rate
+    metric: requests
+    limit: 5
+    timeFrame: minute
+    geo: global
+    unit: 1
+    price: free
+    userMultiplied: false
+  - label: Requests Per Month
+    name: free_requests_per_month
+    type: usage
+    metric: requests
+    limit: 1500
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: free
+    userMultiplied: false
+  elements:
+  - name: Nearby Routes
+  - name: Nearby Stops
+  - name: Stop Departures
+  - name: Route Details
+  - name: Trip Planning
+  - name: Service Alerts
+  - name: Available Networks
+- id: transitapp-partner
+  name: Partner / Higher Volume
+  type: enterprise
+  description: >-
+    Negotiated access for use cases that exceed the free tier - higher request
+    rates and monthly volumes, and specific commercial or on-demand transit use
+    cases. Arranged directly with Transit's partnerships team; rates are not
+    publicly listed.
+  entries:
+  - label: Negotiated Volume
+    name: partner_volume
+    type: usage
+    metric: requests
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: contact partnerships (partners@transit.app)
+    userMultiplied: false
+  elements:
+  - name: Higher Rate Limits
+  - name: Higher Monthly Volume
+  - name: Commercial Use Cases
+  - name: On-Demand Transit Integration
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

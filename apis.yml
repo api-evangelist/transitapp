@@ -1,0 +1,200 @@
+aid: transitapp
+url: https://raw.githubusercontent.com/api-evangelist/transitapp/refs/heads/main/apis.yml
+name: Transit
+kind: company
+description: Transit (the Transit App) is a real-time public transit trip planning
+  and departures platform covering 1,100+ cities in 37 countries. The Transit REST
+  API delivers real-time departures, nearby routes and stops, route details, multimodal
+  trip planning, and service alerts, plus shared-mobility availability for bikes,
+  scooters, and carshare. The API is publicly documented at api-doc.transitapp.com
+  but access is key-gated - developers request a key that grants a free tier (5
+  requests/minute, 1,500 requests/month), and higher volumes are arranged with the
+  partnerships team. Requests are authenticated with an apiKey header against
+  https://external.transitapp.com/v3.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Transit
+- Public Transportation
+- Real-Time
+- Mobility
+- Trip Planning
+- Departures
+- GTFS
+- MaaS
+created: '2026-07-03'
+modified: '2026-07-03'
+specificationVersion: '0.19'
+apis:
+- aid: transitapp:transitapp-nearby-routes-api
+  name: Transit Nearby Routes API
+  tags:
+  - Nearby Routes
+  - Real-Time
+  - Departures
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-doc.transitapp.com/
+  baseURL: https://external.transitapp.com/v3
+  properties:
+  - url: https://transitapp.com/partners/apis
+    type: Documentation
+  - url: https://api-doc.transitapp.com/
+    type: APIReference
+  - url: openapi/transitapp-openapi.yml
+    type: OpenAPI
+  - url: collections/transitapp.postman_collection.json
+    type: PostmanCollection
+  - url: collections/transitapp.opencollection.json
+    type: OpenCollection
+  description: Returns the public transit routes near a latitude/longitude, each with
+    upcoming real-time departures, direction and headsign, wheelchair accessibility,
+    and network branding. This is the core "what can I catch near me right now"
+    endpoint that powers Transit's nearby view.
+- aid: transitapp:transitapp-nearby-stops-api
+  name: Transit Nearby Stops API
+  tags:
+  - Nearby Stops
+  - Geolocation
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-doc.transitapp.com/
+  baseURL: https://external.transitapp.com/v3
+  properties:
+  - url: https://api-doc.transitapp.com/
+    type: APIReference
+  - url: openapi/transitapp-openapi.yml
+    type: OpenAPI
+  - url: collections/transitapp.postman_collection.json
+    type: PostmanCollection
+  - url: collections/transitapp.opencollection.json
+    type: OpenCollection
+  description: Returns the transit stops near a latitude/longitude within a maximum
+    distance, each with a stable global_stop_id, coordinates, and the routes that
+    serve it. The stop identifiers returned here are the keys used to fetch stop
+    departures.
+- aid: transitapp:transitapp-stop-departures-api
+  name: Transit Stop Departures API
+  tags:
+  - Departures
+  - Real-Time
+  - Schedules
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-doc.transitapp.com/
+  baseURL: https://external.transitapp.com/v3
+  properties:
+  - url: https://api-doc.transitapp.com/
+    type: APIReference
+  - url: openapi/transitapp-openapi.yml
+    type: OpenAPI
+  - url: collections/transitapp.postman_collection.json
+    type: PostmanCollection
+  - url: collections/transitapp.opencollection.json
+    type: OpenCollection
+  description: Returns the upcoming departures for a specific stop identified by its
+    global_stop_id, grouped by route and direction, blending real-time predictions
+    with scheduled times. Powers departure boards and stop detail views.
+- aid: transitapp:transitapp-route-details-api
+  name: Transit Route Details API
+  tags:
+  - Route Details
+  - Schedules
+  - Geometry
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-doc.transitapp.com/
+  baseURL: https://external.transitapp.com/v3
+  properties:
+  - url: https://api-doc.transitapp.com/
+    type: APIReference
+  - url: openapi/transitapp-openapi.yml
+    type: OpenAPI
+  - url: collections/transitapp.postman_collection.json
+    type: PostmanCollection
+  - url: collections/transitapp.opencollection.json
+    type: OpenCollection
+  description: Returns the detail for a specific route identified by its
+    global_route_id - its itineraries/directions, the ordered list of stops, path
+    geometry, and branding. Used to render a full route map and stop sequence.
+- aid: transitapp:transitapp-trip-planning-api
+  name: Transit Trip Planning API
+  tags:
+  - Trip Planning
+  - Routing
+  - Multimodal
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-doc.transitapp.com/
+  baseURL: https://external.transitapp.com/v3
+  properties:
+  - url: https://api-doc.transitapp.com/
+    type: APIReference
+  - url: openapi/transitapp-openapi.yml
+    type: OpenAPI
+  - url: collections/transitapp.postman_collection.json
+    type: PostmanCollection
+  - url: collections/transitapp.opencollection.json
+    type: OpenCollection
+  description: Multimodal trip planning between an origin and a destination, returning
+    ranked itineraries that combine public transit with walking, biking, and shared
+    mobility. Built on an OpenTripPlanner-style plan surface with departure/arrival
+    time and modal preferences.
+- aid: transitapp:transitapp-service-alerts-api
+  name: Transit Service Alerts API
+  tags:
+  - Service Alerts
+  - Public Alerts
+  - Disruptions
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-doc.transitapp.com/
+  baseURL: https://external.transitapp.com/v3
+  properties:
+  - url: https://resources.transitapp.com/article/461-alerts
+    type: Documentation
+  - url: https://api-doc.transitapp.com/
+    type: APIReference
+  - url: openapi/transitapp-openapi.yml
+    type: OpenAPI
+  - url: collections/transitapp.postman_collection.json
+    type: PostmanCollection
+  - url: collections/transitapp.opencollection.json
+    type: OpenCollection
+  description: Returns service alerts and disruptions - delays, detours, elevator
+    outages, and cancellations - scoped to a route, stop, or network, following the
+    GTFS-realtime service-alert model (cause, effect, active period, affected
+    entities, header and description text).
+- aid: transitapp:transitapp-locations-api
+  name: Transit Locations API
+  tags:
+  - Locations
+  - Networks
+  - Coverage
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-doc.transitapp.com/
+  baseURL: https://external.transitapp.com/v3
+  properties:
+  - url: https://api-doc.transitapp.com/
+    type: APIReference
+  - url: openapi/transitapp-openapi.yml
+    type: OpenAPI
+  - url: collections/transitapp.postman_collection.json
+    type: PostmanCollection
+  - url: collections/transitapp.opencollection.json
+    type: OpenCollection
+  description: Discovers the transit networks and coverage available near a
+    latitude/longitude - the agencies and systems Transit has data for in that
+    location - so a client can determine which cities and networks are supported
+    before making routing or departures calls.
+common:
+- type: GitHubOrganization
+  url: https://github.com/TransitApp
+- type: LinkedIn
+  url: https://www.linkedin.com/company/transit-app
+- type: Website
+  url: https://transitapp.com
+- type: Documentation
+  url: https://api-doc.transitapp.com/
+- type: Plans
+  url: plans/transitapp-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/transitapp-rate-limits.yml
+- type: FinOps
+  url: finops/transitapp-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
