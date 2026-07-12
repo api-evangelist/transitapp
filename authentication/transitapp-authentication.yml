@@ -1,0 +1,17 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/transitapp-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: apiKeyAuth
+  type: apiKey
+  in: header
+  parameter: apiKey
+  description: Transit access key requested via Transit's API request form. Sent as the `apiKey`
+    request header on every call.
+  sources:
+  - openapi/transitapp-openapi.yml
