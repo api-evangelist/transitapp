@@ -181,6 +181,8 @@ apis:
     location - so a client can determine which cities and networks are supported
     before making routing or departures calls.
 common:
+- type: AgenticAccess
+  url: agentic-access/transitapp-agentic-access.yml
 - type: DomainSecurity
   url: security/transitapp-domain-security.yml
 - type: Authentication
