@@ -1,0 +1,139 @@
+openapi: 3.0.3
+info:
+  title: Transit Locations Service Alerts API
+  description: 'The Transit API delivers real-time public transit data - nearby routes and stops, stop departures, route details, multimodal trip planning, and service alerts - across 1,100+ cities in 37 countries, plus shared-mobility availability for bikes, scooters, and carshare. The API is publicly documented at https://api-doc.transitapp.com/ but access is key-gated: developers request an access key (free tier of 5 requests/minute and 1,500 requests/month) via Transit''s request form, and higher volumes are arranged with the partnerships team.
+
+
+    Requests are made against https://external.transitapp.com/v3 and authenticated with an `apiKey` request header. An `Accept-Language` header selects the response language.
+
+
+    Grounding note: the `apiKey` header, the `https://external.transitapp.com/v3` base URL, and the `GET /public/nearby_stops` endpoint (with `lat`, `lon`, and `max_distance` parameters) are confirmed from Transit''s public documentation and working integrations. The remaining endpoints (`nearby_routes`, `stop_departures`, `route_details`, `otp/plan`, `service_alerts`, `available_networks`) and their request/response shapes are modeled honestly from Transit''s documented v3 API surface, GTFS / GTFS-realtime conventions, and Transit''s public capability descriptions; they are marked with `x-modeled: true`. Confirm exact field names against the live docs once an access key is issued.'
+  version: '3.0'
+  contact:
+    name: Transit Partnerships
+    url: https://transitapp.com/partners/apis
+    email: partners@transit.app
+  x-logo:
+    url: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+servers:
+- url: https://external.transitapp.com/v3
+  description: Transit public API v3
+security:
+- apiKeyAuth: []
+tags:
+- name: Service Alerts
+  description: Service alerts and disruptions for routes, stops, and networks.
+paths:
+  /public/service_alerts:
+    get:
+      operationId: getServiceAlerts
+      tags:
+      - Service Alerts
+      summary: Get service alerts
+      description: Returns service alerts and disruptions - delays, detours, elevator outages, and cancellations - scoped to a route, stop, or network, following the GTFS-realtime service-alert model.
+      x-modeled: true
+      parameters:
+      - name: global_route_id
+        in: query
+        required: false
+        description: Filter alerts affecting a specific route.
+        schema:
+          type: string
+      - name: global_stop_id
+        in: query
+        required: false
+        description: Filter alerts affecting a specific stop.
+        schema:
+          type: string
+      - name: network_id
+        in: query
+        required: false
+        description: Filter alerts affecting a specific transit network/agency.
+        schema:
+          type: string
+      - name: Accept-Language
+        in: header
+        required: false
+        description: Preferred response language (BCP 47).
+        schema:
+          type: string
+          example: en
+      responses:
+        '200':
+          description: Matching service alerts.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  alerts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ServiceAlert'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Rate limit exceeded (free tier is 5 requests/minute, 1,500/month).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    ServiceAlert:
+      type: object
+      properties:
+        alert_id:
+          type: string
+          example: stm-2026-0701-747
+        cause:
+          type: string
+          description: GTFS-realtime alert cause.
+          example: CONSTRUCTION
+        effect:
+          type: string
+          description: GTFS-realtime alert effect.
+          example: DETOUR
+        header_text:
+          type: string
+          example: Route 747 detour
+        description_text:
+          type: string
+          example: The 747 is detoured due to construction on René-Lévesque.
+        severity:
+          type: string
+          example: WARNING
+        active_period_start:
+          type: integer
+          description: Unix epoch seconds the alert becomes active.
+        active_period_end:
+          type: integer
+          description: Unix epoch seconds the alert ends.
+        affected_global_route_ids:
+          type: array
+          items:
+            type: string
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 401
+        message:
+          type: string
+          example: Invalid API key.
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: apiKey
+      description: Transit access key requested via Transit's API request form. Sent as the `apiKey` request header on every call.

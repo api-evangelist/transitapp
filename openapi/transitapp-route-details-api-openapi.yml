@@ -1,0 +1,150 @@
+openapi: 3.0.3
+info:
+  title: Transit Locations Route Details API
+  description: 'The Transit API delivers real-time public transit data - nearby routes and stops, stop departures, route details, multimodal trip planning, and service alerts - across 1,100+ cities in 37 countries, plus shared-mobility availability for bikes, scooters, and carshare. The API is publicly documented at https://api-doc.transitapp.com/ but access is key-gated: developers request an access key (free tier of 5 requests/minute and 1,500 requests/month) via Transit''s request form, and higher volumes are arranged with the partnerships team.
+
+
+    Requests are made against https://external.transitapp.com/v3 and authenticated with an `apiKey` request header. An `Accept-Language` header selects the response language.
+
+
+    Grounding note: the `apiKey` header, the `https://external.transitapp.com/v3` base URL, and the `GET /public/nearby_stops` endpoint (with `lat`, `lon`, and `max_distance` parameters) are confirmed from Transit''s public documentation and working integrations. The remaining endpoints (`nearby_routes`, `stop_departures`, `route_details`, `otp/plan`, `service_alerts`, `available_networks`) and their request/response shapes are modeled honestly from Transit''s documented v3 API surface, GTFS / GTFS-realtime conventions, and Transit''s public capability descriptions; they are marked with `x-modeled: true`. Confirm exact field names against the live docs once an access key is issued.'
+  version: '3.0'
+  contact:
+    name: Transit Partnerships
+    url: https://transitapp.com/partners/apis
+    email: partners@transit.app
+  x-logo:
+    url: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+servers:
+- url: https://external.transitapp.com/v3
+  description: Transit public API v3
+security:
+- apiKeyAuth: []
+tags:
+- name: Route Details
+  description: Itineraries, stops, and geometry for a specific route.
+paths:
+  /public/route_details:
+    get:
+      operationId: getRouteDetails
+      tags:
+      - Route Details
+      summary: Get route details
+      description: Returns the detail for a specific route identified by its global_route_id - its itineraries/directions, the ordered list of stops, path geometry, and branding.
+      x-modeled: true
+      parameters:
+      - name: global_route_id
+        in: query
+        required: true
+        description: The stable global route identifier.
+        schema:
+          type: string
+          example: STM:route:747
+      - name: Accept-Language
+        in: header
+        required: false
+        description: Preferred response language (BCP 47).
+        schema:
+          type: string
+          example: en
+      responses:
+        '200':
+          description: Route detail with itineraries, stops, and geometry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RouteDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  schemas:
+    Stop:
+      type: object
+      properties:
+        global_stop_id:
+          type: string
+          example: STM:stop:12345
+        stop_name:
+          type: string
+          example: Berri-UQAM
+        stop_lat:
+          type: number
+          format: double
+          example: 45.5152
+        stop_lon:
+          type: number
+          format: double
+          example: -73.5615
+        distance:
+          type: integer
+          description: Distance from the search center in meters.
+          example: 87
+        wheelchair_boarding:
+          type: boolean
+          example: true
+        route_type:
+          type: integer
+          description: GTFS route_type served at this stop.
+          example: 1
+    RouteDetail:
+      type: object
+      properties:
+        global_route_id:
+          type: string
+          example: STM:route:747
+        route_short_name:
+          type: string
+          example: '747'
+        route_long_name:
+          type: string
+          example: YUL Aéroport - Centre-ville
+        itineraries:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItineraryDetail'
+    ItineraryDetail:
+      type: object
+      properties:
+        direction_id:
+          type: integer
+          example: 0
+        headsign:
+          type: string
+          example: Centre-ville
+        stops:
+          type: array
+          items:
+            $ref: '#/components/schemas/Stop'
+        shape:
+          type: string
+          description: Encoded polyline of the route path geometry.
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 401
+        message:
+          type: string
+          example: Invalid API key.
+  responses:
+    RateLimited:
+      description: Rate limit exceeded (free tier is 5 requests/minute, 1,500/month).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: apiKey
+      description: Transit access key requested via Transit's API request form. Sent as the `apiKey` request header on every call.

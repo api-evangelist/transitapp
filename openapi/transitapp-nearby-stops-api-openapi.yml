@@ -1,0 +1,140 @@
+openapi: 3.0.3
+info:
+  title: Transit Locations Nearby Stops API
+  description: 'The Transit API delivers real-time public transit data - nearby routes and stops, stop departures, route details, multimodal trip planning, and service alerts - across 1,100+ cities in 37 countries, plus shared-mobility availability for bikes, scooters, and carshare. The API is publicly documented at https://api-doc.transitapp.com/ but access is key-gated: developers request an access key (free tier of 5 requests/minute and 1,500 requests/month) via Transit''s request form, and higher volumes are arranged with the partnerships team.
+
+
+    Requests are made against https://external.transitapp.com/v3 and authenticated with an `apiKey` request header. An `Accept-Language` header selects the response language.
+
+
+    Grounding note: the `apiKey` header, the `https://external.transitapp.com/v3` base URL, and the `GET /public/nearby_stops` endpoint (with `lat`, `lon`, and `max_distance` parameters) are confirmed from Transit''s public documentation and working integrations. The remaining endpoints (`nearby_routes`, `stop_departures`, `route_details`, `otp/plan`, `service_alerts`, `available_networks`) and their request/response shapes are modeled honestly from Transit''s documented v3 API surface, GTFS / GTFS-realtime conventions, and Transit''s public capability descriptions; they are marked with `x-modeled: true`. Confirm exact field names against the live docs once an access key is issued.'
+  version: '3.0'
+  contact:
+    name: Transit Partnerships
+    url: https://transitapp.com/partners/apis
+    email: partners@transit.app
+  x-logo:
+    url: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+servers:
+- url: https://external.transitapp.com/v3
+  description: Transit public API v3
+security:
+- apiKeyAuth: []
+tags:
+- name: Nearby Stops
+  description: Public transit stops near a location.
+paths:
+  /public/nearby_stops:
+    get:
+      operationId: getNearbyStops
+      tags:
+      - Nearby Stops
+      summary: Get nearby stops
+      description: Returns the transit stops near a latitude/longitude within a maximum distance, each with a stable global_stop_id and the routes that serve it. Confirmed endpoint.
+      x-modeled: false
+      parameters:
+      - name: lat
+        in: query
+        required: true
+        description: Latitude of the search center (WGS84 decimal degrees).
+        schema:
+          type: number
+          format: double
+          example: 45.5088
+      - name: lon
+        in: query
+        required: true
+        description: Longitude of the search center (WGS84 decimal degrees).
+        schema:
+          type: number
+          format: double
+          example: -73.5878
+      - name: max_distance
+        in: query
+        required: false
+        description: Maximum search radius in meters.
+        schema:
+          type: integer
+          default: 150
+          example: 150
+      - name: Accept-Language
+        in: header
+        required: false
+        description: Preferred response language (BCP 47).
+        schema:
+          type: string
+          example: en
+      responses:
+        '200':
+          description: A list of nearby stops.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  stops:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Stop'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Rate limit exceeded (free tier is 5 requests/minute, 1,500/month).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 401
+        message:
+          type: string
+          example: Invalid API key.
+    Stop:
+      type: object
+      properties:
+        global_stop_id:
+          type: string
+          example: STM:stop:12345
+        stop_name:
+          type: string
+          example: Berri-UQAM
+        stop_lat:
+          type: number
+          format: double
+          example: 45.5152
+        stop_lon:
+          type: number
+          format: double
+          example: -73.5615
+        distance:
+          type: integer
+          description: Distance from the search center in meters.
+          example: 87
+        wheelchair_boarding:
+          type: boolean
+          example: true
+        route_type:
+          type: integer
+          description: GTFS route_type served at this stop.
+          example: 1
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: apiKey
+      description: Transit access key requested via Transit's API request form. Sent as the `apiKey` request header on every call.
