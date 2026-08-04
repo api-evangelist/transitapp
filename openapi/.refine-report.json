@@ -1,0 +1,26 @@
+{
+  "provider": "transitapp",
+  "sources": [
+    "transitapp-locations-api-openapi.yml",
+    "transitapp-nearby-routes-api-openapi.yml",
+    "transitapp-nearby-stops-api-openapi.yml",
+    "transitapp-route-details-api-openapi.yml",
+    "transitapp-service-alerts-api-openapi.yml",
+    "transitapp-stop-departures-api-openapi.yml",
+    "transitapp-trip-planning-api-openapi.yml"
+  ],
+  "outputs": [
+    "transitapp-locations-api-openapi.yml",
+    "transitapp-nearby-routes-api-openapi.yml",
+    "transitapp-nearby-stops-api-openapi.yml",
+    "transitapp-route-details-api-openapi.yml",
+    "transitapp-service-alerts-api-openapi.yml",
+    "transitapp-stop-departures-api-openapi.yml",
+    "transitapp-trip-planning-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
