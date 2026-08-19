@@ -1,0 +1,57 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Transit Locations Stop Departures API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apiKey",
+      "value": "{{apiKey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Stop Departures",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get stop departures",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://external.transitapp.com/v3/public/stop_departures",
+            "headers": [
+              {
+                "name": "Accept-Language",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "global_stop_id",
+                "value": "",
+                "type": "query",
+                "description": "The stable global stop identifier returned by nearby_stops."
+              },
+              {
+                "name": "should_update_realtime",
+                "value": "",
+                "type": "query",
+                "description": "When true, include live real-time predictions."
+              }
+            ]
+          },
+          "docs": "Returns the upcoming departures for a specific stop identified by its global_stop_id, grouped by route and direction, blending real-time predictions with scheduled times."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

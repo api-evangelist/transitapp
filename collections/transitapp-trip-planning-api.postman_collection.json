@@ -1,0 +1,353 @@
+{
+  "item": [
+    {
+      "id": "cec4be55-75b6-4bbd-9463-7e7c1f0ac9ea",
+      "name": "Trip Planning",
+      "description": {
+        "content": "Multimodal origin-to-destination trip planning.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6d2e7a11-b354-4cfd-a350-4e1acbd55028",
+          "name": "Plan a multimodal trip",
+          "request": {
+            "name": "Plan a multimodal trip",
+            "description": {
+              "content": "Multimodal trip planning between an origin and a destination, returning ranked itineraries that combine public transit with walking, biking, and shared mobility. Built on an OpenTripPlanner-style plan surface.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "otp",
+                "plan"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "fromPlace",
+                  "value": "<string>",
+                  "description": "(Required) Origin as \"lat,lon\"."
+                },
+                {
+                  "disabled": false,
+                  "key": "toPlace",
+                  "value": "<string>",
+                  "description": "(Required) Destination as \"lat,lon\"."
+                },
+                {
+                  "disabled": false,
+                  "key": "date",
+                  "value": "<date>",
+                  "description": "Travel date (YYYY-MM-DD). Defaults to today."
+                },
+                {
+                  "disabled": false,
+                  "key": "time",
+                  "value": "<string>",
+                  "description": "Travel time (HH:MM). Defaults to now."
+                },
+                {
+                  "disabled": false,
+                  "key": "arriveBy",
+                  "value": "false",
+                  "description": "When true, treat date/time as the desired arrival time."
+                },
+                {
+                  "disabled": false,
+                  "key": "mode",
+                  "value": "<string>",
+                  "description": "Comma-separated modes, e.g. TRANSIT,WALK,BICYCLE."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Preferred response language (BCP 47).",
+                "key": "Accept-Language",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bbacec4b-8100-4a02-bcb7-c571165aa629",
+              "name": "Ranked trip itineraries.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "otp",
+                    "plan"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fromPlace",
+                      "value": "45.5088,-73.5878"
+                    },
+                    {
+                      "key": "toPlace",
+                      "value": "45.4972,-73.5793"
+                    },
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "time",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "arriveBy",
+                      "value": "false"
+                    },
+                    {
+                      "key": "mode",
+                      "value": "TRANSIT,WALK"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Preferred response language (BCP 47).",
+                    "key": "Accept-Language",
+                    "value": "en"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"plan\": {\n    \"itineraries\": [\n      {\n        \"duration\": 1980,\n        \"start_time\": 6370,\n        \"end_time\": 2404,\n        \"legs\": [\n          {\n            \"mode\": \"BUS\",\n            \"from\": \"YUL Aéroport\",\n            \"to\": \"Centre-ville\",\n            \"route_short_name\": \"747\",\n            \"duration\": 1500\n          },\n          {\n            \"mode\": \"BUS\",\n            \"from\": \"YUL Aéroport\",\n            \"to\": \"Centre-ville\",\n            \"route_short_name\": \"747\",\n            \"duration\": 1500\n          }\n        ]\n      },\n      {\n        \"duration\": 1980,\n        \"start_time\": 6694,\n        \"end_time\": 5505,\n        \"legs\": [\n          {\n            \"mode\": \"BUS\",\n            \"from\": \"YUL Aéroport\",\n            \"to\": \"Centre-ville\",\n            \"route_short_name\": \"747\",\n            \"duration\": 1500\n          },\n          {\n            \"mode\": \"BUS\",\n            \"from\": \"YUL Aéroport\",\n            \"to\": \"Centre-ville\",\n            \"route_short_name\": \"747\",\n            \"duration\": 1500\n          }\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "40837994-74a0-4148-8b07-9c2795193d60",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "otp",
+                    "plan"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fromPlace",
+                      "value": "45.5088,-73.5878"
+                    },
+                    {
+                      "key": "toPlace",
+                      "value": "45.4972,-73.5793"
+                    },
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "time",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "arriveBy",
+                      "value": "false"
+                    },
+                    {
+                      "key": "mode",
+                      "value": "TRANSIT,WALK"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Preferred response language (BCP 47).",
+                    "key": "Accept-Language",
+                    "value": "en"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"message\": \"Invalid API key.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d4b42687-a621-4b16-86f3-b87b1f54b074",
+              "name": "Rate limit exceeded (free tier is 5 requests/minute, 1,500/month).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "otp",
+                    "plan"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fromPlace",
+                      "value": "45.5088,-73.5878"
+                    },
+                    {
+                      "key": "toPlace",
+                      "value": "45.4972,-73.5793"
+                    },
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "time",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "arriveBy",
+                      "value": "false"
+                    },
+                    {
+                      "key": "mode",
+                      "value": "TRANSIT,WALK"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Preferred response language (BCP 47).",
+                    "key": "Accept-Language",
+                    "value": "en"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"message\": \"Invalid API key.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://external.transitapp.com/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apiKey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "41e1ccd4-2585-4af3-970b-b24a15f55ef8",
+    "name": "Transit Locations Trip Planning API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Transit API delivers real-time public transit data - nearby routes and stops, stop departures, route details, multimodal trip planning, and service alerts - across 1,100+ cities in 37 countries, plus shared-mobility availability for bikes, scooters, and carshare. The API is publicly documented at https://api-doc.transitapp.com/ but access is key-gated: developers request an access key (free tier of 5 requests/minute and 1,500 requests/month) via Transit's request form, and higher volumes are arranged with the partnerships team.\n\nRequests are made against https://external.transitapp.com/v3 and authenticated with an `apiKey` request header. An `Accept-Language` header selects the response language.\n\nGrounding note: the `apiKey` header, the `https://external.transitapp.com/v3` base URL, and the `GET /public/nearby_stops` endpoint (with `lat`, `lon`, and `max_distance` parameters) are confirmed from Transit's public documentation and working integrations. The remaining endpoints (`nearby_routes`, `stop_departures`, `route_details`, `otp/plan`, `service_alerts`, `available_networks`) and their request/response shapes are modeled honestly from Transit's documented v3 API surface, GTFS / GTFS-realtime conventions, and Transit's public capability descriptions; they are marked with `x-modeled: true`. Confirm exact field names against the live docs once an access key is issued.\n\nContact Support:\n Name: Transit Partnerships\n Email: partners@transit.app",
+      "type": "text/plain"
+    }
+  }
+}

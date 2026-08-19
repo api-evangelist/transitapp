@@ -1,0 +1,317 @@
+{
+  "item": [
+    {
+      "id": "b98377a9-af4e-46b4-bec4-ebf3c0126fa9",
+      "name": "Nearby Routes",
+      "description": {
+        "content": "Public transit routes near a location with real-time departures.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ae86f471-cdb9-4ebd-ba9e-d2769d51b4b9",
+          "name": "Get nearby routes",
+          "request": {
+            "name": "Get nearby routes",
+            "description": {
+              "content": "Returns the public transit routes near a latitude/longitude, each with upcoming real-time departures, direction and headsign, wheelchair accessibility, and network branding.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "public",
+                "nearby_routes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "lat",
+                  "value": "<double>",
+                  "description": "(Required) Latitude of the search center (WGS84 decimal degrees)."
+                },
+                {
+                  "disabled": false,
+                  "key": "lon",
+                  "value": "<double>",
+                  "description": "(Required) Longitude of the search center (WGS84 decimal degrees)."
+                },
+                {
+                  "disabled": false,
+                  "key": "max_distance",
+                  "value": "500",
+                  "description": "Maximum search radius in meters."
+                },
+                {
+                  "disabled": false,
+                  "key": "should_update_realtime",
+                  "value": "true",
+                  "description": "When true, include live real-time departure predictions."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Preferred response language (BCP 47), e.g. en, fr, es.",
+                "key": "Accept-Language",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "355c9975-9320-425c-aba0-a6f6862434e0",
+              "name": "A list of nearby routes with departures.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "nearby_routes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "45.5088"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "-73.5878"
+                    },
+                    {
+                      "key": "max_distance",
+                      "value": "500"
+                    },
+                    {
+                      "key": "should_update_realtime",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Preferred response language (BCP 47), e.g. en, fr, es.",
+                    "key": "Accept-Language",
+                    "value": "en"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"routes\": [\n    {\n      \"global_route_id\": \"STM:route:747\",\n      \"route_short_name\": \"747\",\n      \"route_long_name\": \"YUL Aéroport - Centre-ville\",\n      \"route_color\": \"009EE0\",\n      \"route_text_color\": \"FFFFFF\",\n      \"mode_name\": \"bus\",\n      \"itineraries\": [\n        {\n          \"duration\": 1980,\n          \"start_time\": 5210,\n          \"end_time\": 5911,\n          \"legs\": [\n            {\n              \"mode\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"from\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"to\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"route_short_name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"duration\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"mode\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"from\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"to\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"route_short_name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"duration\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        {\n          \"duration\": 1980,\n          \"start_time\": 7488,\n          \"end_time\": 1589,\n          \"legs\": [\n            {\n              \"mode\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"from\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"to\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"route_short_name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"duration\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"mode\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"from\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"to\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"route_short_name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"duration\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"global_route_id\": \"STM:route:747\",\n      \"route_short_name\": \"747\",\n      \"route_long_name\": \"YUL Aéroport - Centre-ville\",\n      \"route_color\": \"009EE0\",\n      \"route_text_color\": \"FFFFFF\",\n      \"mode_name\": \"bus\",\n      \"itineraries\": [\n        {\n          \"duration\": 1980,\n          \"start_time\": 6319,\n          \"end_time\": 5923,\n          \"legs\": [\n            {\n              \"mode\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"from\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"to\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"route_short_name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"duration\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"mode\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"from\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"to\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"route_short_name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"duration\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        {\n          \"duration\": 1980,\n          \"start_time\": 1078,\n          \"end_time\": 5629,\n          \"legs\": [\n            {\n              \"mode\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"from\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"to\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"route_short_name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"duration\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"mode\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"from\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"to\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"route_short_name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"duration\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "21d1af9a-dee2-4ff9-bf41-8e8fe3743e04",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "nearby_routes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "45.5088"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "-73.5878"
+                    },
+                    {
+                      "key": "max_distance",
+                      "value": "500"
+                    },
+                    {
+                      "key": "should_update_realtime",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Preferred response language (BCP 47), e.g. en, fr, es.",
+                    "key": "Accept-Language",
+                    "value": "en"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"message\": \"Invalid API key.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f83213ac-75ac-4105-badc-154508c372c3",
+              "name": "Rate limit exceeded (free tier is 5 requests/minute, 1,500/month).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "nearby_routes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "45.5088"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "-73.5878"
+                    },
+                    {
+                      "key": "max_distance",
+                      "value": "500"
+                    },
+                    {
+                      "key": "should_update_realtime",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Preferred response language (BCP 47), e.g. en, fr, es.",
+                    "key": "Accept-Language",
+                    "value": "en"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"message\": \"Invalid API key.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://external.transitapp.com/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apiKey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "bf5fc715-c058-4750-b35e-49312df2f1af",
+    "name": "Transit Locations Nearby Routes API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Transit API delivers real-time public transit data - nearby routes and stops, stop departures, route details, multimodal trip planning, and service alerts - across 1,100+ cities in 37 countries, plus shared-mobility availability for bikes, scooters, and carshare. The API is publicly documented at https://api-doc.transitapp.com/ but access is key-gated: developers request an access key (free tier of 5 requests/minute and 1,500 requests/month) via Transit's request form, and higher volumes are arranged with the partnerships team.\n\nRequests are made against https://external.transitapp.com/v3 and authenticated with an `apiKey` request header. An `Accept-Language` header selects the response language.\n\nGrounding note: the `apiKey` header, the `https://external.transitapp.com/v3` base URL, and the `GET /public/nearby_stops` endpoint (with `lat`, `lon`, and `max_distance` parameters) are confirmed from Transit's public documentation and working integrations. The remaining endpoints (`nearby_routes`, `stop_departures`, `route_details`, `otp/plan`, `service_alerts`, `available_networks`) and their request/response shapes are modeled honestly from Transit's documented v3 API surface, GTFS / GTFS-realtime conventions, and Transit's public capability descriptions; they are marked with `x-modeled: true`. Confirm exact field names against the live docs once an access key is issued.\n\nContact Support:\n Name: Transit Partnerships\n Email: partners@transit.app",
+      "type": "text/plain"
+    }
+  }
+}

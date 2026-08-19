@@ -1,0 +1,281 @@
+{
+  "item": [
+    {
+      "id": "633d77ba-6008-4543-9d28-fe16b65ace65",
+      "name": "Locations",
+      "description": {
+        "content": "Available transit networks and coverage near a location.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4c674adf-8dd3-4e73-b4de-57aca7df4c62",
+          "name": "Get available networks near a location",
+          "request": {
+            "name": "Get available networks near a location",
+            "description": {
+              "content": "Discovers the transit networks and coverage available near a latitude/longitude - the agencies and systems Transit has data for in that location.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "public",
+                "available_networks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "lat",
+                  "value": "<double>",
+                  "description": "(Required) Latitude of the search center (WGS84 decimal degrees)."
+                },
+                {
+                  "disabled": false,
+                  "key": "lon",
+                  "value": "<double>",
+                  "description": "(Required) Longitude of the search center (WGS84 decimal degrees)."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Preferred response language (BCP 47).",
+                "key": "Accept-Language",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "115fe8ed-e7b2-4109-a495-25563ea36c84",
+              "name": "Available transit networks near the location.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "available_networks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "45.5088"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "-73.5878"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Preferred response language (BCP 47).",
+                    "key": "Accept-Language",
+                    "value": "en"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"networks\": [\n    {\n      \"network_id\": \"STM\",\n      \"network_name\": \"Société de transport de Montréal\",\n      \"location_name\": \"Montreal\"\n    },\n    {\n      \"network_id\": \"STM\",\n      \"network_name\": \"Société de transport de Montréal\",\n      \"location_name\": \"Montreal\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d7fd422a-dde2-4b47-834d-b6174bfd458e",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "available_networks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "45.5088"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "-73.5878"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Preferred response language (BCP 47).",
+                    "key": "Accept-Language",
+                    "value": "en"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"message\": \"Invalid API key.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ddb78f22-c548-4ee3-826a-9469dbd5da11",
+              "name": "Rate limit exceeded (free tier is 5 requests/minute, 1,500/month).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "available_networks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "45.5088"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "-73.5878"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Preferred response language (BCP 47).",
+                    "key": "Accept-Language",
+                    "value": "en"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"message\": \"Invalid API key.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://external.transitapp.com/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apiKey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "ee7e0f2f-efc1-408c-9c77-5f197c466269",
+    "name": "Transit Locations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Transit API delivers real-time public transit data - nearby routes and stops, stop departures, route details, multimodal trip planning, and service alerts - across 1,100+ cities in 37 countries, plus shared-mobility availability for bikes, scooters, and carshare. The API is publicly documented at https://api-doc.transitapp.com/ but access is key-gated: developers request an access key (free tier of 5 requests/minute and 1,500 requests/month) via Transit's request form, and higher volumes are arranged with the partnerships team.\n\nRequests are made against https://external.transitapp.com/v3 and authenticated with an `apiKey` request header. An `Accept-Language` header selects the response language.\n\nGrounding note: the `apiKey` header, the `https://external.transitapp.com/v3` base URL, and the `GET /public/nearby_stops` endpoint (with `lat`, `lon`, and `max_distance` parameters) are confirmed from Transit's public documentation and working integrations. The remaining endpoints (`nearby_routes`, `stop_departures`, `route_details`, `otp/plan`, `service_alerts`, `available_networks`) and their request/response shapes are modeled honestly from Transit's documented v3 API surface, GTFS / GTFS-realtime conventions, and Transit's public capability descriptions; they are marked with `x-modeled: true`. Confirm exact field names against the live docs once an access key is issued.\n\nContact Support:\n Name: Transit Partnerships\n Email: partners@transit.app",
+      "type": "text/plain"
+    }
+  }
+}

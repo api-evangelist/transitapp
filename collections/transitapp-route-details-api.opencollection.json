@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Transit Locations Route Details API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apiKey",
+      "value": "{{apiKey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Route Details",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get route details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://external.transitapp.com/v3/public/route_details",
+            "headers": [
+              {
+                "name": "Accept-Language",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "global_route_id",
+                "value": "",
+                "type": "query",
+                "description": "The stable global route identifier."
+              }
+            ]
+          },
+          "docs": "Returns the detail for a specific route identified by its global_route_id - its itineraries/directions, the ordered list of stops, path geometry, and branding."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

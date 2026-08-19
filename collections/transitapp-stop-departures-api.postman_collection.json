@@ -1,0 +1,281 @@
+{
+  "item": [
+    {
+      "id": "af85c2a6-cc77-441d-b533-7149e0ab9c2d",
+      "name": "Stop Departures",
+      "description": {
+        "content": "Upcoming departures for a specific stop.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fcde821f-8948-42bc-9839-2a6336c8e68b",
+          "name": "Get stop departures",
+          "request": {
+            "name": "Get stop departures",
+            "description": {
+              "content": "Returns the upcoming departures for a specific stop identified by its global_stop_id, grouped by route and direction, blending real-time predictions with scheduled times.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "public",
+                "stop_departures"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "global_stop_id",
+                  "value": "<string>",
+                  "description": "(Required) The stable global stop identifier returned by nearby_stops."
+                },
+                {
+                  "disabled": false,
+                  "key": "should_update_realtime",
+                  "value": "true",
+                  "description": "When true, include live real-time predictions."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Preferred response language (BCP 47).",
+                "key": "Accept-Language",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b05d92d6-3ded-4c8c-8762-b9fb6a48d09f",
+              "name": "Upcoming departures for the stop.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "stop_departures"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "global_stop_id",
+                      "value": "BMTC:stop:12345"
+                    },
+                    {
+                      "key": "should_update_realtime",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Preferred response language (BCP 47).",
+                    "key": "Accept-Language",
+                    "value": "en"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"route_departures\": [\n    {\n      \"global_route_id\": \"STM:route:747\",\n      \"route_short_name\": \"747\",\n      \"direction_headsign\": \"Centre-ville\",\n      \"departures\": [\n        {\n          \"departure_time\": 1751558400,\n          \"is_real_time\": true,\n          \"is_cancelled\": false,\n          \"headsign\": \"Centre-ville\"\n        },\n        {\n          \"departure_time\": 1751558400,\n          \"is_real_time\": true,\n          \"is_cancelled\": false,\n          \"headsign\": \"Centre-ville\"\n        }\n      ]\n    },\n    {\n      \"global_route_id\": \"STM:route:747\",\n      \"route_short_name\": \"747\",\n      \"direction_headsign\": \"Centre-ville\",\n      \"departures\": [\n        {\n          \"departure_time\": 1751558400,\n          \"is_real_time\": true,\n          \"is_cancelled\": false,\n          \"headsign\": \"Centre-ville\"\n        },\n        {\n          \"departure_time\": 1751558400,\n          \"is_real_time\": true,\n          \"is_cancelled\": false,\n          \"headsign\": \"Centre-ville\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4c1397ce-2d8f-40c0-b996-ce39f59d8598",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "stop_departures"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "global_stop_id",
+                      "value": "BMTC:stop:12345"
+                    },
+                    {
+                      "key": "should_update_realtime",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Preferred response language (BCP 47).",
+                    "key": "Accept-Language",
+                    "value": "en"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"message\": \"Invalid API key.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "abd4f2fc-2b66-4fdf-a5f4-24ef3ee5f1b6",
+              "name": "Rate limit exceeded (free tier is 5 requests/minute, 1,500/month).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "stop_departures"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "global_stop_id",
+                      "value": "BMTC:stop:12345"
+                    },
+                    {
+                      "key": "should_update_realtime",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Preferred response language (BCP 47).",
+                    "key": "Accept-Language",
+                    "value": "en"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"message\": \"Invalid API key.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://external.transitapp.com/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apiKey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "49a96225-a1de-4058-abb5-9dab319f1c9e",
+    "name": "Transit Locations Stop Departures API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Transit API delivers real-time public transit data - nearby routes and stops, stop departures, route details, multimodal trip planning, and service alerts - across 1,100+ cities in 37 countries, plus shared-mobility availability for bikes, scooters, and carshare. The API is publicly documented at https://api-doc.transitapp.com/ but access is key-gated: developers request an access key (free tier of 5 requests/minute and 1,500 requests/month) via Transit's request form, and higher volumes are arranged with the partnerships team.\n\nRequests are made against https://external.transitapp.com/v3 and authenticated with an `apiKey` request header. An `Accept-Language` header selects the response language.\n\nGrounding note: the `apiKey` header, the `https://external.transitapp.com/v3` base URL, and the `GET /public/nearby_stops` endpoint (with `lat`, `lon`, and `max_distance` parameters) are confirmed from Transit's public documentation and working integrations. The remaining endpoints (`nearby_routes`, `stop_departures`, `route_details`, `otp/plan`, `service_alerts`, `available_networks`) and their request/response shapes are modeled honestly from Transit's documented v3 API surface, GTFS / GTFS-realtime conventions, and Transit's public capability descriptions; they are marked with `x-modeled: true`. Confirm exact field names against the live docs once an access key is issued.\n\nContact Support:\n Name: Transit Partnerships\n Email: partners@transit.app",
+      "type": "text/plain"
+    }
+  }
+}

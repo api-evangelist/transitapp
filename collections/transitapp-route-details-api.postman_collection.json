@@ -1,0 +1,263 @@
+{
+  "item": [
+    {
+      "id": "9df129be-95fe-4b88-af19-06f08600c3c9",
+      "name": "Route Details",
+      "description": {
+        "content": "Itineraries, stops, and geometry for a specific route.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8b8091a5-ab9e-4e1e-be7c-b1bbdabe6814",
+          "name": "Get route details",
+          "request": {
+            "name": "Get route details",
+            "description": {
+              "content": "Returns the detail for a specific route identified by its global_route_id - its itineraries/directions, the ordered list of stops, path geometry, and branding.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "public",
+                "route_details"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "global_route_id",
+                  "value": "<string>",
+                  "description": "(Required) The stable global route identifier."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Preferred response language (BCP 47).",
+                "key": "Accept-Language",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b1ce117b-ba58-4067-82f0-bb452d2b679f",
+              "name": "Route detail with itineraries, stops, and geometry.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "route_details"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "global_route_id",
+                      "value": "STM:route:747"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Preferred response language (BCP 47).",
+                    "key": "Accept-Language",
+                    "value": "en"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"global_route_id\": \"STM:route:747\",\n  \"route_short_name\": \"747\",\n  \"route_long_name\": \"YUL Aéroport - Centre-ville\",\n  \"itineraries\": [\n    {\n      \"direction_id\": 0,\n      \"headsign\": \"Centre-ville\",\n      \"stops\": [\n        {\n          \"global_stop_id\": \"STM:stop:12345\",\n          \"stop_name\": \"Berri-UQAM\",\n          \"stop_lat\": 45.5152,\n          \"stop_lon\": -73.5615,\n          \"distance\": 87,\n          \"wheelchair_boarding\": true,\n          \"route_type\": 1\n        },\n        {\n          \"global_stop_id\": \"STM:stop:12345\",\n          \"stop_name\": \"Berri-UQAM\",\n          \"stop_lat\": 45.5152,\n          \"stop_lon\": -73.5615,\n          \"distance\": 87,\n          \"wheelchair_boarding\": true,\n          \"route_type\": 1\n        }\n      ],\n      \"shape\": \"string\"\n    },\n    {\n      \"direction_id\": 0,\n      \"headsign\": \"Centre-ville\",\n      \"stops\": [\n        {\n          \"global_stop_id\": \"STM:stop:12345\",\n          \"stop_name\": \"Berri-UQAM\",\n          \"stop_lat\": 45.5152,\n          \"stop_lon\": -73.5615,\n          \"distance\": 87,\n          \"wheelchair_boarding\": true,\n          \"route_type\": 1\n        },\n        {\n          \"global_stop_id\": \"STM:stop:12345\",\n          \"stop_name\": \"Berri-UQAM\",\n          \"stop_lat\": 45.5152,\n          \"stop_lon\": -73.5615,\n          \"distance\": 87,\n          \"wheelchair_boarding\": true,\n          \"route_type\": 1\n        }\n      ],\n      \"shape\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "08c7b5db-8468-476b-8924-224cd7755631",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "route_details"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "global_route_id",
+                      "value": "STM:route:747"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Preferred response language (BCP 47).",
+                    "key": "Accept-Language",
+                    "value": "en"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"message\": \"Invalid API key.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e2541337-2cdf-452f-b8bd-cd4180be1180",
+              "name": "Rate limit exceeded (free tier is 5 requests/minute, 1,500/month).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "route_details"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "global_route_id",
+                      "value": "STM:route:747"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apiKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Preferred response language (BCP 47).",
+                    "key": "Accept-Language",
+                    "value": "en"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"message\": \"Invalid API key.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://external.transitapp.com/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apiKey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "ce16b515-7b4c-4e97-a976-6ac22c38d4c1",
+    "name": "Transit Locations Route Details API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Transit API delivers real-time public transit data - nearby routes and stops, stop departures, route details, multimodal trip planning, and service alerts - across 1,100+ cities in 37 countries, plus shared-mobility availability for bikes, scooters, and carshare. The API is publicly documented at https://api-doc.transitapp.com/ but access is key-gated: developers request an access key (free tier of 5 requests/minute and 1,500 requests/month) via Transit's request form, and higher volumes are arranged with the partnerships team.\n\nRequests are made against https://external.transitapp.com/v3 and authenticated with an `apiKey` request header. An `Accept-Language` header selects the response language.\n\nGrounding note: the `apiKey` header, the `https://external.transitapp.com/v3` base URL, and the `GET /public/nearby_stops` endpoint (with `lat`, `lon`, and `max_distance` parameters) are confirmed from Transit's public documentation and working integrations. The remaining endpoints (`nearby_routes`, `stop_departures`, `route_details`, `otp/plan`, `service_alerts`, `available_networks`) and their request/response shapes are modeled honestly from Transit's documented v3 API surface, GTFS / GTFS-realtime conventions, and Transit's public capability descriptions; they are marked with `x-modeled: true`. Confirm exact field names against the live docs once an access key is issued.\n\nContact Support:\n Name: Transit Partnerships\n Email: partners@transit.app",
+      "type": "text/plain"
+    }
+  }
+}

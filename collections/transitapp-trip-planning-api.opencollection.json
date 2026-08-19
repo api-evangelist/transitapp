@@ -1,0 +1,81 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Transit Locations Trip Planning API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apiKey",
+      "value": "{{apiKey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Trip Planning",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Plan a multimodal trip",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://external.transitapp.com/v3/otp/plan",
+            "headers": [
+              {
+                "name": "Accept-Language",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "fromPlace",
+                "value": "",
+                "type": "query",
+                "description": "Origin as \"lat,lon\"."
+              },
+              {
+                "name": "toPlace",
+                "value": "",
+                "type": "query",
+                "description": "Destination as \"lat,lon\"."
+              },
+              {
+                "name": "date",
+                "value": "",
+                "type": "query",
+                "description": "Travel date (YYYY-MM-DD). Defaults to today."
+              },
+              {
+                "name": "time",
+                "value": "",
+                "type": "query",
+                "description": "Travel time (HH:MM). Defaults to now."
+              },
+              {
+                "name": "arriveBy",
+                "value": "",
+                "type": "query",
+                "description": "When true, treat date/time as the desired arrival time."
+              },
+              {
+                "name": "mode",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated modes, e.g. TRANSIT,WALK,BICYCLE."
+              }
+            ]
+          },
+          "docs": "Multimodal trip planning between an origin and a destination, returning ranked itineraries that combine public transit with walking, biking, and shared mobility. Built on an OpenTripPlanner-style plan surface."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

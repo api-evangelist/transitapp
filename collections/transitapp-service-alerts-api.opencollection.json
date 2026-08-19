@@ -1,0 +1,63 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Transit Locations Service Alerts API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apiKey",
+      "value": "{{apiKey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Service Alerts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get service alerts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://external.transitapp.com/v3/public/service_alerts",
+            "headers": [
+              {
+                "name": "Accept-Language",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "global_route_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter alerts affecting a specific route."
+              },
+              {
+                "name": "global_stop_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter alerts affecting a specific stop."
+              },
+              {
+                "name": "network_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter alerts affecting a specific transit network/agency."
+              }
+            ]
+          },
+          "docs": "Returns service alerts and disruptions - delays, detours, elevator outages, and cancellations - scoped to a route, stop, or network, following the GTFS-realtime service-alert model."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

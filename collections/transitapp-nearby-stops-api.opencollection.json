@@ -1,0 +1,63 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Transit Locations Nearby Stops API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apiKey",
+      "value": "{{apiKey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Nearby Stops",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get nearby stops",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://external.transitapp.com/v3/public/nearby_stops",
+            "headers": [
+              {
+                "name": "Accept-Language",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "lat",
+                "value": "",
+                "type": "query",
+                "description": "Latitude of the search center (WGS84 decimal degrees)."
+              },
+              {
+                "name": "lon",
+                "value": "",
+                "type": "query",
+                "description": "Longitude of the search center (WGS84 decimal degrees)."
+              },
+              {
+                "name": "max_distance",
+                "value": "",
+                "type": "query",
+                "description": "Maximum search radius in meters."
+              }
+            ]
+          },
+          "docs": "Returns the transit stops near a latitude/longitude within a maximum distance, each with a stable global_stop_id and the routes that serve it. Confirmed endpoint."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

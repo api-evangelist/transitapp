@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Transit Locations Nearby Routes API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apiKey",
+      "value": "{{apiKey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Nearby Routes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get nearby routes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://external.transitapp.com/v3/public/nearby_routes",
+            "headers": [
+              {
+                "name": "Accept-Language",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "lat",
+                "value": "",
+                "type": "query",
+                "description": "Latitude of the search center (WGS84 decimal degrees)."
+              },
+              {
+                "name": "lon",
+                "value": "",
+                "type": "query",
+                "description": "Longitude of the search center (WGS84 decimal degrees)."
+              },
+              {
+                "name": "max_distance",
+                "value": "",
+                "type": "query",
+                "description": "Maximum search radius in meters."
+              },
+              {
+                "name": "should_update_realtime",
+                "value": "",
+                "type": "query",
+                "description": "When true, include live real-time departure predictions."
+              }
+            ]
+          },
+          "docs": "Returns the public transit routes near a latitude/longitude, each with upcoming real-time departures, direction and headsign, wheelchair accessibility, and network branding."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
