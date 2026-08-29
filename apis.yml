@@ -11,6 +11,18 @@ description: Transit (the Transit App) is a real-time public transit trip planni
   requests/minute, 1,500 requests/month), and higher volumes are arranged with the
   partnerships team. Requests are authenticated with an apiKey header against
   https://external.transitapp.com/v3.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: free
   onboarding: self-serve
