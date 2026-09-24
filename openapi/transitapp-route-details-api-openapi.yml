@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Transit Locations Route Details API
   description: 'The Transit API delivers real-time public transit data - nearby routes and stops, stop departures, route details, multimodal trip planning, and service alerts - across 1,100+ cities in 37 countries, plus shared-mobility availability for bikes, scooters, and carshare. The API is publicly documented at https://api-doc.transitapp.com/ but access is key-gated: developers request an access key (free tier of 5 requests/minute and 1,500 requests/month) via Transit''s request form, and higher volumes are arranged with the partnerships team.
@@ -60,6 +60,22 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
+    ItineraryDetail:
+      type: object
+      properties:
+        direction_id:
+          type: integer
+          example: 0
+        headsign:
+          type: string
+          example: Centre-ville
+        stops:
+          type: array
+          items:
+            $ref: '#/components/schemas/Stop'
+        shape:
+          type: string
+          description: Encoded polyline of the route path geometry.
     Stop:
       type: object
       properties:
@@ -88,6 +104,15 @@ components:
           type: integer
           description: GTFS route_type served at this stop.
           example: 1
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 401
+        message:
+          type: string
+          example: Invalid API key.
     RouteDetail:
       type: object
       properties:
@@ -104,40 +129,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ItineraryDetail'
-    ItineraryDetail:
-      type: object
-      properties:
-        direction_id:
-          type: integer
-          example: 0
-        headsign:
-          type: string
-          example: Centre-ville
-        stops:
-          type: array
-          items:
-            $ref: '#/components/schemas/Stop'
-        shape:
-          type: string
-          description: Encoded polyline of the route path geometry.
-    Error:
-      type: object
-      properties:
-        status:
-          type: integer
-          example: 401
-        message:
-          type: string
-          example: Invalid API key.
   responses:
-    RateLimited:
-      description: Rate limit exceeded (free tier is 5 requests/minute, 1,500/month).
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
+    RateLimited:
+      description: Rate limit exceeded (free tier is 5 requests/minute, 1,500/month).
       content:
         application/json:
           schema:

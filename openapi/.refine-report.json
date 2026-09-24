@@ -21,6 +21,15 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
+  "notes": [
+    "transitapp-locations-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "transitapp-nearby-routes-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "transitapp-nearby-stops-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "transitapp-route-details-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "transitapp-service-alerts-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "transitapp-stop-departures-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "transitapp-trip-planning-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
   "skipped": []
 }

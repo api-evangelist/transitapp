@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Transit Locations Nearby Routes API
   description: 'The Transit API delivers real-time public transit data - nearby routes and stops, stop departures, route details, multimodal trip planning, and service alerts - across 1,100+ cities in 37 countries, plus shared-mobility availability for bikes, scooters, and carshare. The API is publicly documented at https://api-doc.transitapp.com/ but access is key-gated: developers request an access key (free tier of 5 requests/minute and 1,500 requests/month) via Transit''s request form, and higher volumes are arranged with the partnerships team.
@@ -88,19 +88,6 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
-  responses:
-    RateLimited:
-      description: Rate limit exceeded (free tier is 5 requests/minute, 1,500/month).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
     Leg:
       type: object
@@ -120,31 +107,6 @@ components:
         duration:
           type: integer
           example: 1500
-    Route:
-      type: object
-      properties:
-        global_route_id:
-          type: string
-          example: STM:route:747
-        route_short_name:
-          type: string
-          example: '747'
-        route_long_name:
-          type: string
-          example: YUL Aéroport - Centre-ville
-        route_color:
-          type: string
-          example: 009EE0
-        route_text_color:
-          type: string
-          example: FFFFFF
-        mode_name:
-          type: string
-          example: bus
-        itineraries:
-          type: array
-          items:
-            $ref: '#/components/schemas/Itinerary'
     Error:
       type: object
       properties:
@@ -171,6 +133,44 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Leg'
+    Route:
+      type: object
+      properties:
+        global_route_id:
+          type: string
+          example: STM:route:747
+        route_short_name:
+          type: string
+          example: '747'
+        route_long_name:
+          type: string
+          example: YUL Aéroport - Centre-ville
+        route_color:
+          type: string
+          example: 009EE0
+        route_text_color:
+          type: string
+          example: FFFFFF
+        mode_name:
+          type: string
+          example: bus
+        itineraries:
+          type: array
+          items:
+            $ref: '#/components/schemas/Itinerary'
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Rate limit exceeded (free tier is 5 requests/minute, 1,500/month).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     apiKeyAuth:
       type: apiKey
